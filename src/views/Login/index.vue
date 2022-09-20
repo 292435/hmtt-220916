@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       user: {
-        mobile: '13911111111',
+        mobile: '14778683851',
         code: '246810'
       },
       loginState: '登录',
@@ -73,12 +73,14 @@ export default {
       this.lod = true
       try {
         const res = await loginAPI(this.user)
-        console.log(res)
         Notify({ type: 'success', message: '登录成功' })
         setToken(res.data.data.token)
-        // localStorage.setItem('loginToken', res.data.data.token)
+        this.$router.replace({
+          path: '/layout/home'
+        })
       } catch (err) {
-        if (err.response.status === 403) {
+        console.dir('login', err)
+        if (err?.response?.status === 403) {
           Notify({ type: 'danger', message: '账号或密码错误！' })
         } else {
           Notify({ type: 'danger', message: '服务器错误' })

@@ -8,13 +8,15 @@ module.exports = {
         lessOptions: {
           modifyVars: {
             // 直接覆盖变量
-            // 'nav-bar-background-color': '#0077ff',
-            // 'nav-bar-title-text-color': '#fff'
+            'nav-bar-background-color': '#0077ff',
+            'nav-bar-title-text-color': '#fff',
+            'tabs-bottom-bar-color': '#0077ff',
+            'nav-bar-icon-color': '#fff'
             // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-            hack: `true; @import "${path.join(
-              __dirname,
-              '/src/styles/cover.less'
-            )}";`
+            // hack: `true; @import "${path.join(
+            //   __dirname,
+            //   '/src/styles/cover.less'
+            // )}";`
           }
         }
       }
