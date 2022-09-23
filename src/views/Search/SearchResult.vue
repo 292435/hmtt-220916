@@ -33,6 +33,7 @@
 import { searchResultAPI } from '@/api'
 import ArticleItem from '@/components/ArticleItem.vue'
 export default {
+  name: 'search_result',
   data() {
     return {
       page: 1,

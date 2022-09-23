@@ -51,8 +51,9 @@
 
 <script>
 import { loginAPI } from '@/api/index.js'
-import { Notify } from 'vant'
+import Notify from '@/ui/Notify'
 import { setToken } from '@/utils/token'
+import { setStorage } from '@/utils/storage'
 export default {
   comments: {
     Notify
@@ -75,8 +76,9 @@ export default {
         const res = await loginAPI(this.user)
         Notify({ type: 'success', message: '登录成功' })
         setToken(res.data.data.token)
+        setStorage('refresh_token', res.data.data.refresh_token)
         this.$router.replace({
-          path: '/layout/home'
+          path: this.$route.query.path || '/layout/home'
         })
       } catch (err) {
         console.dir('login', err)

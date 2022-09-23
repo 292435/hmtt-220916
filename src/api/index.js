@@ -1,4 +1,5 @@
 import axios from '@/utils/request.js'
+import { getStorage } from '@/utils/storage'
 // import { getToken } from '@/utils/token'
 export const allChannelListAPI = () => {
   return axios({
@@ -79,6 +80,7 @@ export const searchResultAPI = ({ page = 1, per_page = 10, q }) => {
     }
   })
 }
+// 获取文章详情
 export const detailAPI = ({ article_id }) => {
   return axios({
     url: `/v1_0/articles/${article_id}`
@@ -152,5 +154,63 @@ export const setCommentsAPI = ({ target, content, art_id = null }) => {
     url: '/v1_0/comments',
     method: 'POST',
     data: obj
+  })
+}
+// collections收藏文章
+export const collectionsAPI = ({ target }) => {
+  return axios({
+    url: '/v1_0/article/collections',
+    method: 'POST',
+    data: {
+      target
+    }
+  })
+}
+// uncollections取消收藏文章
+export const unCollectionsAPI = ({ target }) => {
+  return axios({
+    url: `/v1_0/article/collections/${target}`,
+    method: 'DELETE',
+    params: {
+      target
+    }
+  })
+}
+// 获取用户个人信息： /v1_0/user
+export const userInfoAPI = () => {
+  return axios({
+    url: '/v1_0/user'
+  })
+}
+// 获取用户资料
+export const profilesAPI = () => {
+  return axios({
+    url: '/v1_0/user/profile'
+  })
+}
+// 更新用户头像/v1_0/user/photo
+export const updatePhotoAPI = (fd) => {
+  return axios({
+    url: '/v1_0/user/photo',
+    method: 'PATCH',
+    data: fd
+  })
+}
+// 编辑个人资料 /v1_0/user/profile
+export const profileAPI = ({ name, gender, birthday, real_name, intro }) => {
+  return axios({
+    url: '/v1_0/user/profile',
+    method: 'PATCH',
+    data: { name, gender, birthday, real_name, intro }
+  })
+}
+// 刷新token
+export const newTokenAPI = () => {
+  return axios({
+    url: '/v1_0/authorizations',
+    method: 'PUT',
+    headers: {
+      Authorization: 'Bearer ' + getStorage('refresh_token')
+    }
   })
 }

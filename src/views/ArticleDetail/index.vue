@@ -7,9 +7,16 @@
       left-arrow
       @click-left="$router.back()"
     />
-
+    <!-- 加载过程状态 -->
+    <van-loading
+      size="24px"
+      text-color="#0094ff"
+      vertical
+      v-if="artObj.title === undefined"
+      >加载中...</van-loading
+    >
     <!-- 文章信息区域 -->
-    <div class="article-container">
+    <div class="article-container" v-else>
       <!-- 文章标题 -->
       <h1 class="art-title">{{ artObj.title }}</h1>
 
@@ -91,12 +98,12 @@ import {
 import { timeAgo } from '@/utils/date.js'
 import commentList from '@/views/ArticleDetail/CommentList.vue'
 export default {
+  name: 'article_detail',
   async created() {
     const id = this.$route.query.art_id
     const res = await detailAPI({
       article_id: id
     })
-    // console.log('ress', res)
     this.artObj = res.data.data
   },
   data() {
@@ -190,5 +197,8 @@ export default {
 .like-box {
   display: flex;
   justify-content: center;
+}
+.van-loading {
+  padding-top: 46px;
 }
 </style>

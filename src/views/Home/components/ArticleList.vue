@@ -25,7 +25,8 @@
 <script>
 import ArticleItem from '../../../components/ArticleItem.vue'
 import { getAllArticleAPI, dislikeArticleAPI, reportArticleAPI } from '@/api'
-import { Toast, Notify } from 'vant'
+import { Toast } from 'vant'
+import Notify from '@/ui/Notify'
 export default {
   data() {
     return {
@@ -36,7 +37,17 @@ export default {
       isLoading: false
     }
   },
+  // activated() {
+  //   window.addEventListener('scroll', this.scrollTopFn)
+  //   document.documentElement.scrollTop = this.$route.meta.scrollT
+  // },
+  // deactivated() {
+  //   window.removeEventListener('scroll', this.scrollTopFn)
+  // },
   methods: {
+    scrollTopFn() {
+      this.$route.meta.scrollT = document.documentElement.scrollTop
+    },
     async getArticleListFn() {
       const res = await getAllArticleAPI({
         channel_id: this.itemId, // 默认推荐频道(id为0)
@@ -60,6 +71,10 @@ export default {
       Toast('刷新成功')
     },
     async onLoad() {
+      if (this.articleList.length === 0) {
+        this.loading = false
+        return
+      }
       if (this.moreTime == null) {
         this.finished = true
         return

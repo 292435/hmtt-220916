@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Login/index.vue'
-import Layout from '@/views/Layout'
-import Home from '@/views/Home'
-import User from '@/views/User'
-import Search from '@/views/Search'
-import SearchResult from '@/views/Search/SearchResult.vue'
-import ArticleDetail from '@/views/ArticleDetail'
+// import Login from '@/views/Login/index.vue'
+// import Layout from '@/views/Layout'
+// import Home from '@/views/Home'
+// import User from '@/views/User'
+// import Search from '@/views/Search'
+// import SearchResult from '@/views/Search/SearchResult.vue'
+// import ArticleDetail from '@/views/ArticleDetail'
+// import UserEdit from '@/views/User/UserEdit'
+// import Chat from '@/views/Chat'
+import { getToken } from '@/utils/token'
 
 Vue.use(VueRouter)
 
@@ -17,37 +20,66 @@ const routes = [
   },
   {
     path: '/login',
-    component: Login
+    component: () =>
+      import(/* webpackChunkName: "Login" */ '@/views/Login/index.vue'),
+    beforeEnter: (to, from, next) => {
+      if (getToken()?.length > 0 && to.path === '/login') {
+        next('/layout/home')
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/layout',
-    component: Layout,
+    component: () => import(/* webpackChunkName: "Layout" */ '@/views/Layout'),
     children: [
       {
         path: 'home',
-        component: Home
+        component: () => import(/* webpackChunkName: "Home" */ '@/views/Home'),
+        meta: { scrollT: '10' }
       },
       {
         path: 'user',
-        component: User
+        component: () => import(/* webpackChunkName: "User" */ '@/views/User')
       }
     ]
   },
   {
     path: '/search',
-    component: Search
+    component: () => import(/* webpackChunkName: "Search" */ '@/views/Search')
   },
   {
     path: '/search_result/:kw',
-    component: SearchResult
+    component: () =>
+      import(
+        /* webpackChunkName: "SearchResult" */ '@/views/Search/SearchResult.vue'
+      )
   },
   {
     path: '/article_detail',
-    component: ArticleDetail
+    component: () =>
+      import(/* webpackChunkName: "ArticleDetail" */ '@/views/ArticleDetail')
+  },
+  {
+    path: '/user_edit',
+    component: () =>
+      import(/* webpackChunkName: "UserEdit" */ '@/views/User/UserEdit')
+  },
+  {
+    path: '/chat',
+    component: () => import(/* webpackChunkName: "Chat" */ '@/views/Chat')
   }
 ]
 const router = new VueRouter({
   routes
 })
 
+// router.beforeEach((to, from, next) => {
+//   if (getToken()?.length > 0 && to.path === '/login') {
+//     next(false)
+//   } else {
+//     next()
+//   }
+// })
 export default router

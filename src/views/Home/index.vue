@@ -14,7 +14,13 @@
       </template>
     </van-nav-bar>
 
-    <van-tabs v-model="active" animated sticky offset-top="1.226666rem">
+    <van-tabs
+      v-model="active"
+      @change="tabChangeFn"
+      animated
+      sticky
+      offset-top="1.226666rem"
+    >
       <van-tab :title="obj.name" v-for="obj in getUserChannel" :key="obj.id">
         <ArticleList :itemId="obj.id"></ArticleList>
       </van-tab>
@@ -59,10 +65,20 @@ export default {
       active: 0,
       getUserChannel: [], // 用户的频道
       allChannelList: [], // 所有的频道
-      show: false
+      show: false,
+      channelScrollObj: {}
     }
   },
   methods: {
+    scrollTopFn() {
+      this.$route.meta.scrollT = document.documentElement.scrollTop
+      this.channelScrollObj[this.active] = document.documentElement.scrollTop
+    },
+    tabChangeFn() {
+      this.$nextTick(() => {
+        document.documentElement.scrollTop = this.channelScrollObj[this.active]
+      })
+    },
     goChannelFn(item) {
       console.log(item)
       this.active = item
@@ -94,6 +110,13 @@ export default {
     toSearchFn() {
       this.$router.push('/search')
     }
+  },
+  activated() {
+    window.addEventListener('scroll', this.scrollTopFn)
+    document.documentElement.scrollTop = this.$route.meta.scrollT
+  },
+  deactivated() {
+    window.removeEventListener('scroll', this.scrollTopFn)
   },
   async created() {
     const res1 = await getUserChannelAPI()

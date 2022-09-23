@@ -8,21 +8,25 @@
         <div class="title-box">
           <!-- 标题 -->
           <span>{{ itemObj.title }}</span>
-          <img
-            v-if="itemObj.cover.type === 1"
-            class="thumb"
-            :src="itemObj.cover.images[0]"
-            alt=""
-          />
+          <lazy-component>
+            <img
+              v-if="itemObj.cover.type === 1"
+              class="thumb"
+              v-lazy="itemObj.cover.images[0]"
+              alt=""
+            />
+          </lazy-component>
         </div>
         <!-- 三张图片 -->
         <div v-if="itemObj.cover.type > 1" class="thumb-box">
-          <img
-            class="thumb"
-            v-for="(Img, ind) in itemObj.cover.images"
-            :src="Img"
-            :key="ind"
-          />
+          <lazy-component>
+            <img
+              class="thumb"
+              v-for="(Img, ind) in itemObj.cover.images"
+              v-lazy="Img"
+              :key="ind"
+            />
+          </lazy-component>
         </div>
       </template>
       <!-- label 区域的插槽 -->

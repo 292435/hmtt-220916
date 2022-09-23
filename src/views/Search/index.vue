@@ -57,7 +57,9 @@
 
 <script>
 import { suggestionAPI } from '@/api'
+import { setStorage } from '@/utils/storage'
 export default {
+  name: 'search',
   data() {
     return {
       kw: '', // 搜索关键字,
@@ -128,7 +130,7 @@ export default {
       handler() {
         const set = new Set(this.history)
         const arr = Array.from(set)
-        localStorage.setItem('his', JSON.stringify(arr))
+        setStorage('his', JSON.stringify(arr))
       }
     }
   }
