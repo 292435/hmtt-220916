@@ -24,6 +24,28 @@ yarn lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 1
+<<<<<<< HEAD
 2312323123
 2312323123
 2312323123
+=======
+
+2312323123ssssssss
+
+ssssssss
+
+ssssssssssssssss
+
+ssssssss
+
+ssssssssssssssss
+
+ssssssss
+
+ssssssssssssssss
+
+ssssssss
+
+ssssssssssssssss
+
+>>>>>>> login
